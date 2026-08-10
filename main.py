@@ -40,7 +40,7 @@ class player(Star):
         self.exp = 0
         self.point = 0
     @filter.command("创建角色")    
-    async def creat(self,user_name = event.get_sender_name())
+    async def creat(self,user_name = event.get_sender_name()):
         if user_name not in list:
             list.append(user_name)
             user_name = player()
@@ -61,7 +61,7 @@ class player(Star):
             self.levelup()
     @filter.command("查询经验")
     async def askexp(self,user_name = event.get_sender_name()):
-        yield event.plain_result(f"@{user_name},您当前的经验值为{self.exp}/n满100经验可使用'升级'指令升级哦")
+        yield event.plain_result(f"@{user_name},您当前的经验值为{self.exp}/n满100经验可使用'升级'升级哦")
     @filter.command("升级")
     async def levelup(self,user_name = event.get_sender_name()):
         self.level = self.level + 1
