@@ -1,6 +1,7 @@
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
+list = []
 
 @register("helloworld", "YourName", "一个简单的 Hello World 插件", "1.0.0")
 class MyPlugin(Star):
@@ -29,8 +30,55 @@ class MyPlugin(Star):
         message_str = event.message_str # 用户发的纯文本消息字符串
         message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
         yield event.plain_result(f"Hello, {user_name}, 您今日已完成签到") # 发送一条纯文本消息
-
+class player(Star):
+    def __init__(self, context: Context):
+        super().__init__(context)
+        self.hp = 100
+        self.atk = 10
+        self.dfc = 10
+        self.level = 1
+        self.exp = 0
+        self.point = 0
+    @filter.command("创建角色")    
+    async def creat(self,user_name = event.get_sender_name())
+        if user_name not in list:
+            list.append(user_name)
+            user_name = player()
+            yield event.plain_result(f"@{user_name},角色创建成功啦")
+            return list
+        else:
+            yield event.plain_result(f"@{user_name},您已创建过角色哦")
+    async def levelup(self):
+        self.level = self.level + 1
+        self.hp = self.hp + 10
+        self.point = self.point + 1
+        self.point = 0
+        return 
+    @filter.command("修炼")            
+    async def exercise(self,user_name = event.get_sender_name()):
+        self.exp = self.exp + 10
+        if self.exp >=100:
+            self.levelup()
+    @filter.command("查询经验")
+    async def askexp(self,user_name = event.get_sender_name()):
+        yield event.plain_result(f"@{user_name},您当前的经验值为{self.exp}/n满100经验可使用'升级'指令升级哦")
+    @filter.command("升级")
+    async def levelup(self,user_name = event.get_sender_name()):
+        self.level = self.level + 1
+        self.hp = self.hp + 10
+        self.point = self.point + 1
+        self.point = 0
+        yield event.plain_result(f"@{user_name},升级成功！可输入'属性'指令查询属性")
+        
+    
+            
+        
+        
+        
+        
+    
 
     
 
 
+    
