@@ -40,7 +40,7 @@ class player(Star):
         self.exp = 0
         self.point = 0
     @filter.command("创建角色")    
-    async def creat(self,event: AstrMessageEvent):
+    def creat(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
         if user_name not in list:
             list.append(user_name)
