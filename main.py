@@ -40,12 +40,13 @@ class player(Star):
         self.exp = 0
         self.point = 0
     @filter.command("创建角色")    
-    async def creat(self,user_name = event.get_sender_name()):
+    def creat(self,user_name = event.get_sender_name()):
         if user_name not in list:
             list.append(user_name)
             user_name = player()
+            list.append(user_name)
             yield event.plain_result(f"@{user_name},角色创建成功啦")
-            return list
+            
         else:
             yield event.plain_result(f"@{user_name},您已创建过角色哦")
     async def levelup(self):
