@@ -30,7 +30,8 @@ class MyPlugin(Star):
         message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
         yield event.plain_result(f"Hello, {user_name}, 您今日已完成签到") # 发送一条纯文本消息
 class player(Star): 
-    def __init__(self):
+    def __init__(self,context = Context):
+        super().__init__(context)
         self.hp = 100
         self.atk = 10
         self.dfc = 10
@@ -41,7 +42,12 @@ class player(Star):
     async def creat(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
         if user_name not in list:
-            user_name = player()
+            self.hp = 100
+            self.atk = 10
+            self.dfc = 10
+            self.level = 1
+            self.exp = 0
+            self.point = 0
             list.append(user_name)
             yield event.plain_result(f"@{user_name},角色创建成功啦")
             yield list
