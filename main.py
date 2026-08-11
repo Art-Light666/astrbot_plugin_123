@@ -71,7 +71,7 @@ class Player:
         yield event.plain_result(f"@{user_name},升级成功！可输入'属性'指令查询各项数值")
     @filter.command("列表")
     async def ask(self,event: AstrMessageEvent):
-        yield event.plain_result(f"当前有{len(players)}名玩家注册\n{players.keys}")
+        yield event.plain_result(f"当前有{len(players)}名玩家注册\n{list(players.keys())}")
         
         
         
