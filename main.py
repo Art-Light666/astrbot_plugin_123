@@ -42,8 +42,9 @@ class Player(Star):
 
     @filter.command("创建角色")    
     async def create(self,event: AstrMessageEvent):
-        event.get_sender_name()= Player()
-        players[event.get_sender_name()] = event.get_sender_name()      
+        user_name = event.get_sender_name()
+        a  = Player()
+        players[user_name] = a
         if event.get_sender_name() not in list:
             list.append(event.get_sender_name())
             yield event.plain_result(f"At{event.get_sender_name()},角色创建成功啦")
