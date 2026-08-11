@@ -43,7 +43,7 @@ class player(Star):
         user_name = event.get_sender_name()
         if user_name not in list:
             list.append(user_name)
-            user_name = player(context: Context)
+            user_name = player()
             list.append(user_name)
             yield event.plain_result(f"@{user_name},角色创建成功啦")
             yield list
@@ -62,11 +62,11 @@ class player(Star):
         self.exp = self.exp + 10
         if self.exp >=100:
             self.levelup()
-    @filter.command("查询经验")
+    @filter.command("属性")
     async def askexp(self, event: AstrMessageEvent):
         user_name = event.get_sender_name()
         if user_name in list:
-            yield event.plain_result(f"@{user_name},您当前的经验值为{self.exp}\n满100经验可使用'升级'升级哦")
+            yield event.plain_result(f"'{user_name}'的信息如下\n生命{self.hp}\n攻击{self.atk}\n防御{self.dfc}\n{self.exp},满100经验可使用'升级'升级哦")
         else :
             yield event.plain_result(f"@{user_name},您还未创建角色哦")
     @filter.command("升级")
