@@ -45,7 +45,7 @@ class Player(Star):
         user_name = event.get_sender_name()
         if event.get_sender_name() not in players:
             players[user_name] = Player()
-            yield event.plain_result(f"At{user_name)},角色创建成功啦")
+            yield event.plain_result(f"At{user_name},角色创建成功啦")
         else:
             yield event.plain_result(f"At{user_name},您已创建过角色哦")
     @filter.command("修炼")            
