@@ -31,19 +31,16 @@ class MyPlugin(Star):
         message_str = event.message_str # 用户发的纯文本消息字符串
         message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
         yield event.plain_result(f"Hello, {user_name}, 您今日已完成签到") # 发送一条纯文本消息
-class Player(Star): 
+class Player: 
     HP = 100
     Atk = 10
     Dfc = 5
     level = 0
     exp = 0
-    def __init__(self,context : Context):
-        super().__init__(context)
-
     @filter.command("创建角色")    
     async def create(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
-        if event.get_sender_name() not in players:
+        if user_name not in players:
             players[user_name] = Player()
             yield event.plain_result(f"At{user_name},角色创建成功啦")
         else:
@@ -72,9 +69,9 @@ class Player(Star):
             players[user_name].hp = players[user_name].hp + 10
             players[user_name].point = players[user_name].point + 1
         yield event.plain_result(f"@{user_name},升级成功！可输入'属性'指令查询各项数值")
-    @filter.command("注册玩家")
+    @filter.command("列表")
     async def ask(self,event: AstrMessageEvent):
-        yield event.plain_result(f"当前有{len(players)}名玩家注册\n{players.keys()}")
+        yield event.plain_result(f"当前有{len(players)}名玩家注册\n{players.keys}")
         
         
         
