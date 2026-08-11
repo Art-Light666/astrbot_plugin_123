@@ -37,6 +37,7 @@ class Player:
     dfc = 5
     level = 0
     exp = 0
+    point = 0
     @filter.command("创建角色")    
     async def create(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
