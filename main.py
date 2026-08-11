@@ -80,7 +80,7 @@ class player(Star):
         yield event.plain_result(f"@{user_name},升级成功！可输入'属性'指令查询属性")
     @filter.command("注册玩家")
     async def ask(self,event: AstrMessageEvent):
-        yield event.plain_result(list)        
+        yield event.plain_result(str(list))        
         
         
         
