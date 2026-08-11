@@ -32,39 +32,28 @@ class MyPlugin(Star):
 class player(Star): 
     def __init__(self,context = Context):
         super().__init__(context)
-        self.hp = 100
-        self.atk = 10
-        self.dfc = 10
-        self.level = 1
-        self.exp = 0
-        self.point = 0
+
     @filter.command("创建角色")    
     async def creat(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
         if user_name not in list:
-            self.hp = 100
-            self.atk = 10
-            self.dfc = 10
-            self.level = 1
-            self.exp = 0
-            self.point = 0
+            user_name.hp = 100
+            user_name.atk = 10
+            user_name.dfc = 10
+            user_name.level = 1
+            user_name.exp = 0
+            user_name.point = 0
             list.append(user_name)
             yield event.plain_result(f"@{user_name},角色创建成功啦")
             yield list
             
         else:
             yield event.plain_result(f"@{user_name},您已创建过角色哦")
-    async def levelup(self):
-        self.level = self.level + 1
-        self.hp = self.hp + 10
-        self.point = self.point + 1
-        self.point = 0
-        return 
     @filter.command("修炼")            
     async def exercise(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
         if user_name in list:
-            self.exp = self.exp + 100
+            user_name.exp = user_name.exp + 100
             yield event.plain_result(f"@{user_name},修炼完毕,经验+100")
         else:
             yield event.plain_result(f"@{user_name},您还未创建角色哦")
@@ -72,17 +61,17 @@ class player(Star):
     async def askexp(self, event: AstrMessageEvent):
         user_name = event.get_sender_name()
         if user_name in list:
-            yield event.plain_result(f"'{user_name}'的信息如下\n生命{self.hp}\n攻击{self.atk}\n防御{self.dfc}\n经验值{self.exp},满100经验可使用'升级'升级哦")
+            yield event.plain_result(f"'{user_name}'的信息如下\n生命{user_name.hp}\n攻击{user_name.atk}\n防御{user_name.dfc}\n经验值{user_name.exp},满100经验可使用'升级'升级哦")
         else :
             yield event.plain_result(f"@{user_name},您还未创建角色哦")
     @filter.command("升级")
     async def levelup(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
-        if user_name in list:
-            self.level = self.level + 1
-            self.hp = self.hp + 10
-            self.point = self.point + 1
-            self.point = 0
+        if user_name in list and user_name.exp >= 100:
+            user_name.exp = user_name.exp -100
+            user_name.level = user_name.level + 1
+            user_name.hp = user_name.hp + 10
+            user_name.point = user_name.point + 1
         yield event.plain_result(f"@{user_name},升级成功！可输入'属性'指令查询各项数值")
     @filter.command("注册玩家")
     async def ask(self,event: AstrMessageEvent):
