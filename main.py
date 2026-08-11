@@ -43,7 +43,7 @@ class player(Star):
         user_name = event.get_sender_name()
         if user_name not in list:
             list.append(user_name)
-            user_name = player(context = Context)
+            user_name = player(context: Context)
             list.append(user_name)
             yield event.plain_result(f"@{user_name},角色创建成功啦")
             yield list
