@@ -63,8 +63,11 @@ class player(Star):
     @filter.command("修炼")            
     async def exercise(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
-        self.exp = self.exp + 100
-        yield event.plain_result(f"@{user_name},修炼完毕,经验+100")
+        if user_name in list:
+            self.exp = self.exp + 100
+            yield event.plain_result(f"@{user_name},修炼完毕,经验+100")
+        else:
+            yield event.plain_result(f"@{user_name},您还未创建角色哦")
     @filter.command("属性")
     async def askexp(self, event: AstrMessageEvent):
         user_name = event.get_sender_name()
