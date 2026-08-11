@@ -32,6 +32,12 @@ class MyPlugin(Star):
 class player(Star): 
     def __init__(self,context = Context):
         super().__init__(context)
+        self.hp = 100
+        self.atk = 10
+        self.dfc = 10
+        self.level = 1
+        self.exp = 0
+        self.point = 0
 
     @filter.command("创建角色")    
     async def create(self,event: AstrMessageEvent):
