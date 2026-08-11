@@ -2,7 +2,6 @@ from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
 list = []
-
 @register("helloworld", "YourName", "一个简单的 Hello World 插件", "1.0.0")
 class MyPlugin(Star):
     def __init__(self, context: Context):
@@ -40,14 +39,14 @@ class player(Star):
         self.exp = 0
         self.point = 0
     @filter.command("创建角色")    
-    def creat(self,event: AstrMessageEvent):
+    async def creat(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
         if user_name not in list:
             list.append(user_name)
             user_name = player()
             list.append(user_name)
             yield event.plain_result(f"@{user_name},角色创建成功啦")
-            return list
+            yield list
             
         else:
             yield event.plain_result(f"@{user_name},您已创建过角色哦")
@@ -79,7 +78,9 @@ class player(Star):
             self.point = self.point + 1
             self.point = 0
         yield event.plain_result(f"@{user_name},升级成功！可输入'属性'指令查询属性")
-         
+    @filter.command("注册玩家")
+    async def ask(self,event: AstrMessageEvent):
+        yield event.plain_result(list)        
         
         
         
