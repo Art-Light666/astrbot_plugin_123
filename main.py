@@ -64,8 +64,7 @@ class player(Star):
     async def exercise(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
         self.exp = self.exp + 10
-        if self.exp >=100:
-            self.levelup()
+        yield event.plain_result(f"@{user_name},修炼完毕,经验+10")
     @filter.command("属性")
     async def askexp(self, event: AstrMessageEvent):
         user_name = event.get_sender_name()
