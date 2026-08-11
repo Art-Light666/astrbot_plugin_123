@@ -32,27 +32,29 @@ class MyPlugin(Star):
         message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
         yield event.plain_result(f"Hello, {user_name}, 您今日已完成签到") # 发送一条纯文本消息
 class Player: 
-    HP = 100
-    Atk = 10
-    Dfc = 5
-    level = 0
-    exp = 0
+    pass
+    def __init__(self):        
+        self.HP = 100
+        self.Atk = 10
+        self.Dfc = 5
+        self.level = 0
+        self.exp = 0
     @filter.command("创建角色")    
     async def create(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
         if user_name not in players:
             players[user_name] = Player()
-            yield event.plain_result(f"At{user_name},角色创建成功啦")
+            yield event.plain_result(f"@{user_name},角色创建成功啦")
         else:
-            yield event.plain_result(f"At{user_name},您已创建过角色哦")
+            yield event.plain_result(f"@{user_name},您已创建过角色哦")
     @filter.command("修炼")            
     async def exercise(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
         if user_name in players:
             players[user_name].exp = players[user_name].exp + 100
-            yield event.plain_result(f"At{user_name},修炼完毕,经验+100")
+            yield event.plain_result(f"@{user_name},修炼完毕,经验+100")
         else:
-            yield event.plain_result(f"At{user_name},您还未创建角色哦")
+            yield event.plain_result(f"@{user_name},您还未创建角色哦")
     @filter.command("属性")
     async def askexp(self, event: AstrMessageEvent):
         user_name = event.get_sender_name()
