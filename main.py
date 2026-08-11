@@ -59,9 +59,8 @@ class player(Star):
             yield event.plain_result(f"@{user_name},您还未创建角色哦")
     @filter.command("属性")
     async def askexp(self, event: AstrMessageEvent):
-        user_name = event.get_sender_name()
-        if user_name in list:
-            yield event.plain_result(f"'{user_name}'的信息如下\n生命{user_name.hp}\n攻击{user_name.atk}\n防御{user_name.dfc}\n经验值{user_name.exp},满100经验可使用'升级'升级哦")
+        if event.get_sender_name() in list:
+            yield event.plain_result(f"'{event.get_sender_name()}'的信息如下\n生命{event.get_sender_name().hp}\n攻击{event.get_sender_name().atk}\n防御{event.get_sender_name().dfc}\n经验值{event.get_sender_name().exp},满100经验可使用'升级'升级哦")
         else :
             yield event.plain_result(f"@{user_name},您还未创建角色哦")
     @filter.command("升级")
