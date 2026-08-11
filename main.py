@@ -43,12 +43,6 @@ class player(Star):
     async def create(self,event: AstrMessageEvent):
         user_name = player()
         if user_name not in list:
-            user_name.hp = 100
-            user_name.atk = 10
-            user_name.dfc = 10
-            user_name.level = 1
-            user_name.exp = 0
-            user_name.point = 0
             list.append(event.get_sender_name())
             yield event.plain_result(f"@{event.get_sender_name()},角色创建成功啦")
             yield list
