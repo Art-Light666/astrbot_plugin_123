@@ -34,8 +34,9 @@ class player(Star):
         super().__init__(context)
 
     @filter.command("创建角色")    
-    async def creat(self,event: AstrMessageEvent):
+    async def create(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
+        user_name = player(user_name)
         if user_name not in list:
             user_name.hp = 100
             user_name.atk = 10
