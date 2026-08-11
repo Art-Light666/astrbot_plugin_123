@@ -31,14 +31,12 @@ class MyPlugin(Star):
         message_str = event.message_str # 用户发的纯文本消息字符串
         message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
         yield event.plain_result(f"Hello, {user_name}, 您今日已完成签到") # 发送一条纯文本消息
-class Player: 
-    pass
-    def __init__(self):        
-        self.HP = 100
-        self.Atk = 10
-        self.Dfc = 5
-        self.level = 0
-        self.exp = 0
+class Player:      
+    hp = 100
+    atk = 10
+    dfc = 5
+    level = 0
+    exp = 0
     @filter.command("创建角色")    
     async def create(self,event: AstrMessageEvent):
         user_name = event.get_sender_name()
