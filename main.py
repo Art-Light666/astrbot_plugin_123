@@ -62,7 +62,7 @@ class MyPlugin(Star):
                 cur_energy = energy.get("cur", 0)
                 total_energy = energy.get("total", 0)
                 
-                yield event.plain_result(f"=== 鸣潮体力查询 ===\n角色名称: {role_name}\n当前体力: {cur_energy} / {total_energy}\n=========================")
+                yield event.plain_result(f"------ 鸣潮体力查询 ------\n角色名称: {role_name}\n当前体力: {cur_energy} / {total_energy}\n=========================")
             else:
                 yield event.plain_resultf(f"接口请求失败: {res_data.get('msg')}")
                 
