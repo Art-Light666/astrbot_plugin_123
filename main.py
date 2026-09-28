@@ -12,7 +12,6 @@ class MyPlugin(Star):
     async def initialize(self):
         """可选择实现异步的插件初始化方法，当实例化该插件类之后会自动调用该方法。"""
 
-    # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
     @filter.command("鸣潮体力")
     async def 鸣潮体力体力(self, event: AstrMessageEvent):
         TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVkIjoxNzkwNTU5ODc5MTMzLCJ1c2VySWQiOjEwNDEyNzY0fQ.8zFlVxyXNQjIa4Ba-wRlNZ_4kf25FxanX4Ru7cbY_kY"  # 图1中完整的token
@@ -63,7 +62,7 @@ class MyPlugin(Star):
                 cur_energy = energy.get("cur", 0)
                 total_energy = energy.get("total", 0)
                 
-                yield event.plain_result(f"====== 鸣潮体力查询 ======\n角色名称: {role_name}\n当前体力: {cur_energy} / {total_energy}\n=========================")
+                yield event.plain_result(f"=== 鸣潮体力查询 ===\n角色名称: {role_name}\n当前体力: {cur_energy} / {total_energy}\n=========================")
             else:
                 yield event.plain_resultf(f"接口请求失败: {res_data.get('msg')}")
                 
