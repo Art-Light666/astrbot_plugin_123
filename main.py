@@ -13,7 +13,8 @@ class MyPlugin(Star):
 
     # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
     @filter.command("鸣潮体力")
-    async def helloworld(self, event: AstrMessageEvent):
+    async def 鸣潮体力体力(self, event: AstrMessageEvent):
+        yield event.plain_result("Hello!")
         """这是一个 hello world 指令""" # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
         TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVkIjoxNzkwNTU5ODc5MTMzLCJ1c2VySWQiOjEwNDEyNzY0fQ.8zFlVxyXNQjIa4Ba-wRlNZ_4kf25FxanX4Ru7cbY_kY"  # 图1中完整的token
         DEV_CODE = "54B38FAFA015125A61B99A829BFFBF2F89617B12"
@@ -63,15 +64,12 @@ class MyPlugin(Star):
                 cur_energy = energy.get("cur", 0)
                 total_energy = energy.get("total", 0)
                 
-                print("====== 鸣潮体力查询 ======")
-                print(f"角色名称: {role_name}")
-                print(f"当前体力: {cur_energy} / {total_energy}")
-                print("=========================")
+                yield event.plain_result(f"====== 鸣潮体力查询 ======\n角色名称: {role_name}\n当前体力: {cur_energy} / {total_energy}\n=========================")
             else:
-                print(f"接口请求失败: {res_data.get('msg')}")
+                yield event.plain_resultf(f"接口请求失败: {res_data.get('msg')}")
                 
         except Exception as e:
-            print(f"发生错误: {e}")
+            yield event.plain_result(f"发生错误: {e}")
 
     async def terminate(self):
         """可选择实现异步的插件销毁方法，当插件被卸载/停用时会调用。"""
