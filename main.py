@@ -1,6 +1,7 @@
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
+import requests
 
 
 @register("helloworld", "YourName", "一个简单的 Hello World 插件", "1.0.0")
@@ -14,7 +15,6 @@ class MyPlugin(Star):
     # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
     @filter.command("鸣潮体力")
     async def 鸣潮体力体力(self, event: AstrMessageEvent):
-        yield event.plain_result("Hello!")
         """这是一个 hello world 指令""" # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
         TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVkIjoxNzkwNTU5ODc5MTMzLCJ1c2VySWQiOjEwNDEyNzY0fQ.8zFlVxyXNQjIa4Ba-wRlNZ_4kf25FxanX4Ru7cbY_kY"  # 图1中完整的token
         DEV_CODE = "54B38FAFA015125A61B99A829BFFBF2F89617B12"
