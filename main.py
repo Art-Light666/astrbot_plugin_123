@@ -1,7 +1,6 @@
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
-players = {}
 
 
 @register("helloworld", "YourName", "一个简单的 Hello World 插件", "1.0.0")
@@ -13,68 +12,69 @@ class MyPlugin(Star):
         """可选择实现异步的插件初始化方法，当实例化该插件类之后会自动调用该方法。"""
 
     # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
-    @filter.command("helloworld")
+    @filter.command("鸣潮体力")
     async def helloworld(self, event: AstrMessageEvent):
         """这是一个 hello world 指令""" # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
-        user_name = event.get_sender_name()
-        message_str = event.message_str # 用户发的纯文本消息字符串
-        message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
-        logger.info(message_chain)
-        yield event.plain_result(f"Hello, {user_name}, 你发了 {message_str}!") # 发送一条纯文本消息
+        TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVkIjoxNzkwNTU5ODc5MTMzLCJ1c2VySWQiOjEwNDEyNzY0fQ.8zFlVxyXNQjIa4Ba-wRlNZ_4kf25FxanX4Ru7cbY_kY"  # 图1中完整的token
+        DEV_CODE = "54B38FAFA015125A61B99A829BFFBF2F89617B12"
+        DISTINCT_ID = "07098ab3-1665-4acb-ba2e-f962c60eaa77"
+
+# 2. 构造请求头 (完全照抄你的抓包数据)
+        headers = {
+            "Host": "api.kurobbs.com",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "User-Agent": "okhttp/4.12.0", # 一般安卓抓包是这个，如果没有可以留空或自行补充
+            "devCode": DEV_CODE,
+            "source": "android",
+            "version": "3.4.0",
+            "versionCode": "30400",
+            "token": TOKEN,
+            "osVersion": "30",
+            "distinct_id": DISTINCT_ID,
+            "countryCode": "CN",
+            "model": "Pixel 4",
+            "lang": "zh-Hans",
+            "channelId": "2"
+        }
+
+        # 3. 构造请求体 (❗❗请去抓包软件的“请求 -> Text/Raw”中查看实际的请求体内容)
+        # 根据图4的响应，大概率需要传这些字段：
+        payload = {
+            "roleId": "102314104",  # 图4响应里的roleId
+            "gameId": "3",          # 图4响应里的gameId
+            # "userId": "10412764", # 如果接口需要userId，也请加上
+        }
+
+        url = "https://api.kurobbs.com/aki/widget/refresh"
+
+        try:
+            # 发送POST请求
+            response = requests.post(url, headers=headers, data=payload)
+            response.raise_for_status() # 检查HTTP响应状态码
+            
+            # 解析JSON
+            res_data = response.json()
+            
+            if res_data.get("code") == 200:
+                data = res_data.get("data", {})
+                energy = data.get("energyData", {})
+                
+                role_name = data.get("roleName", "未知角色")
+                cur_energy = energy.get("cur", 0)
+                total_energy = energy.get("total", 0)
+                
+                print("====== 鸣潮体力查询 ======")
+                print(f"角色名称: {role_name}")
+                print(f"当前体力: {cur_energy} / {total_energy}")
+                print("=========================")
+            else:
+                print(f"接口请求失败: {res_data.get('msg')}")
+                
+        except Exception as e:
+            print(f"发生错误: {e}")
 
     async def terminate(self):
         """可选择实现异步的插件销毁方法，当插件被卸载/停用时会调用。"""
-    @filter.command("签到")
-    async def qd(self, event: AstrMessageEvent):
-        """这是一个 签到 指令""" 
-        user_name = event.get_sender_name()
-        message_str = event.message_str # 用户发的纯文本消息字符串
-        message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
-        yield event.plain_result(f"Hello, {user_name}, 您今日已完成签到") # 发送一条纯文本消息
-class Player:      
-    hp = 100
-    atk = 10
-    dfc = 5
-    level = 0
-    exp = 0
-    point = 0
-    @filter.command("创建角色")    
-    async def create(self,event: AstrMessageEvent):
-        user_name = event.get_sender_name()
-        if user_name not in players:
-            players[user_name] = Player()
-            yield event.plain_result(f"@{user_name},角色创建成功啦")
-        else:
-            yield event.plain_result(f"@{user_name},您已创建过角色哦")
-    @filter.command("修炼")            
-    async def exercise(self,event: AstrMessageEvent):
-        user_name = event.get_sender_name()
-        if user_name in players:
-            players[user_name].exp = players[user_name].exp + 100
-            yield event.plain_result(f"@{user_name},修炼完毕,经验+100")
-        else:
-            yield event.plain_result(f"@{user_name},您还未创建角色哦")
-    @filter.command("属性")
-    async def askexp(self, event: AstrMessageEvent):
-        user_name = event.get_sender_name()
-        if user_name in players:
-            yield event.plain_result(f"@{user_name}的信息如下\n生命{players[user_name].hp}\n攻击{players[user_name].atk}\n防御{players[user_name].dfc}\n经验值{players[user_name].exp},满100经验可使用升级哦\n技能点数:{players[user_name].point}")
-        else :
-            yield event.plain_result(f"@{user_name},您还未创建角色哦")
-    @filter.command("升级")
-    async def levelup(self,event: AstrMessageEvent):
-        user_name = event.get_sender_name()
-        if user_name in players and players[user_name].exp >= 100:
-            players[user_name].exp = players[user_name].exp - 100
-            players[user_name].level = players[user_name].level + 1
-            players[user_name].hp = players[user_name].hp + 10
-            players[user_name].point = players[user_name].point + 1
-        yield event.plain_result(f"@{user_name},升级成功！可输入'属性'指令查询各项数值")
-    @filter.command("列表")
-    async def ask(self,event: AstrMessageEvent):
-        yield event.plain_result(f"当前有{len(players)}名玩家注册\n{list(players.keys())}")
-        
-        
         
         
     
